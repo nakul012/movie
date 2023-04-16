@@ -1,0 +1,113 @@
+{% load static %}
+<html>
+<head>
+    <title> </title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+
+{% comment %} <body style="background-color:powderblue;"> {% endcomment %}
+<body style="background-color:LightGray;">
+    {% comment %} <table class="table table-dark table-striped"> {% endcomment %}
+<div class="d-flex mb-4 ml-4 mt-2 justify-content-center">
+        <h1> MOVIE LIST </h1>
+</div>
+<div class="ml-4 mb-2 d-flex justify-content-between">
+    <div class="ml-4">
+        <input id="movie_title" type="text" name="movie_title" placeholder="Movie name..">
+        <button id="omdb_btn" class="btn btn-secondary px-2 ml-2 " >Get from OMdb </button>
+        <a class="px-2 btn py-1 ml-3" style="background-color: #0971a0;color: #fff;height: 41px;" href="/create-movie/">Add Movie Manually</a>
+        <script src="{% static 'script.js' %}"></script>
+    </div>
+    <div>
+        <div class="d-flex justify-content-end mx-5">
+            <a class="btn btn-secondary p-2 ml-2" href="/movie/">Clear all filters</a>
+        </div>
+
+    </div>
+</div>
+{% comment %} </table> {% endcomment %}
+
+<ol>
+    <table class="table table-dark table-striped">
+   <tr>
+       <th>Id</th>
+       <th>
+        <div>
+            Title
+        </div>
+        <div class="d-flex">
+            <input id="title_filter" type="text" name="movie_title" placeholder="Title name..">
+            <script src="{% static 'script.js' %}"></script>
+        </div>
+       </th>
+       <th>Thumbnail</th>
+       <th>Release Date</th>
+       <th>
+            <div>
+                Director
+            </div>
+            <div class="d-flex">
+                <input id="director_filter" type="text" placeholder="Director name..">
+                <script src="{% static 'script.js' %}"></script>
+            </div>
+       </th>
+       <th>
+        <div>
+            Actor
+        </div>
+        <div class="d-flex">
+            <input id="actor_filter" type="text" placeholder="Actor name..">
+            <script src="{% static 'script.js' %}"></script>
+        </div>
+       </th>
+       <th>
+        <div>
+            Genre
+        </div>
+        <div class="d-flex">
+            <input id="genre_filter" type="text" placeholder="Genre..">
+            <script src="{% static 'script.js' %}"></script>
+        </div>
+       </th>
+       <th>Rating</th>
+
+
+
+   </tr>
+   {% for movie in movies %}
+       <tr>
+           <td>{{movie.id}}</td>
+           <td><a href="{{ movie.imdb_url }}" target="_blank">{{movie.name}}</a></td>
+           <td><img style="width:100px" src=" {{movie.thumbnail_url}}"/></td>
+            <td>{{movie.release_date}}</td>
+            <td>
+                {% for m in movie.director.all %}
+                   {{m.name}}{% if not forloop.last %}, {% endif %}
+                   {% endfor %}
+               </td>
+               <td>
+                {% for m in movie.actor.all %}
+                   {{m.name}}{% if not forloop.last %}, {% endif %}
+                   {% endfor %}
+               </td>
+               <td>
+                {% for m in movie.genre.all %}
+                {{m.name}}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+              </td>
+               <td>{{movie.imdb_rating}}</td>
+       
+          
+
+       </tr>
+   {% endfor %}
+</table>
+
+</ol>
+</body>
+</html>
